@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: csi-secrets-test
+  namespace: csi-secrets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: csi-secrets-test
+  template:
+    metadata:
+      labels:
+        tier: csi-secrets-test
+    spec:
+      containers:
+        - name: csi-secrets-test
+          image: gcr.io/video-doctor-development/csi-secrets
+          imagePullPolicy: "Always"
+          env:
+            -
+              name: ACTOR
+              value: csi-secret
+    volumes:
+      - name: csi-secret
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "csi-secret-test"
+
+
+
