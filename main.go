@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
+	log.Println("Started app")
 	actor := getFromEnv()
+	log.Printf("Using env value: %s\n",actor)
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		writer.WriteHeader(http.StatusOK)
 		writer.Write([]byte(actor))
